@@ -42,6 +42,31 @@ async function login(parent, args, context, info) {
   }
 }
 
+async function vote(parent, args, context, info) {
+  // 1
+  const userId = getUserId(context)
+
+  // 2
+  const linkExists = await context.db.exists.Vote({
+    user: { id: userId },
+    link: { id: args.linkId },
+  })
+  if (linkExists) {
+    throw new Error(`Already voted for link: ${args.linkId}`)
+  }
+
+  // 3
+  return context.db.mutation.createVote(
+    {
+      data: {
+        user: { connect: { id: userId } },
+        link: { connect: { id: args.linkId } },
+      },
+    },
+    info,
+  )
+}
+
 function post(parent, args, context, info) {
   const userId = getUserId(context)
   return context.db.mutation.createLink(
@@ -60,4 +85,5 @@ module.exports = {
   signup,
   login,
   post,
+  vote
 }
