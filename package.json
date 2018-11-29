@@ -13,6 +13,7 @@
   "author": "Krishna Mohan",
   "license": "MIT",
   "dependencies": {
-    "graphql-yoga": "^1.15.1"
+    "graphql-yoga": "^1.15.1",
+    "prisma-binding": "^2.2.8"
   }
 }
