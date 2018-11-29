@@ -1,5 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { Prisma } = require('prisma-binding')
+const Query = require('./resolvers/Query')
+const Mutation = require('./resolvers/Mutation')
+const AuthPayload = require('./resolvers/AuthPayload')
+const Subscription = require('./resolvers/Subscription')
 
 /*
 Not required since we've created a prisma database
@@ -21,12 +25,16 @@ Not required since we've created a prisma database
 /*
 */
 const resolvers = {
-    Query: {
-        info: () => 'This is the API of a HackerNews clone.',
-        feed: (root, args, context, info) => {
-            return context.db.query.links({}, info);
-        }
-    },
+    Query,
+    Mutation, 
+    AuthPayload,
+    Subscription,
+    // Query: {
+    //     info: () => 'This is the API of a HackerNews clone.',
+    //     feed: (root, args, context, info) => {
+    //         return context.db.query.links({}, info);
+    //     }
+    // },
 
     // Link: {
     //     id: (root) => root.id,
@@ -34,15 +42,15 @@ const resolvers = {
     //     url: (root) => root.url
     // },
 
-    Mutation: {
-        post: (root, args, context, info) => {
-            return context.db.mutation.createlink({
-                data: {
-                    url: args.url,
-                    description: args.description
-                }
-            }, info);
-        },
+    // Mutation: {
+    //     post: (root, args, context, info) => {
+    //         return context.db.mutation.createlink({
+    //             data: {
+    //                 url: args.url,
+    //                 description: args.description
+    //             }
+    //         }, info);
+    //     },
 
         // updateLink: (root, args) => {
         //     let index = links.findIndex((x)=> x.id === args.id);
@@ -58,7 +66,7 @@ const resolvers = {
         //     return link;
 
         // }
-    }
+    // }
 }
 
 /*
